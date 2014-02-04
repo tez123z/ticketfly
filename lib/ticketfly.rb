@@ -35,12 +35,13 @@ module Ticketfly
   end
   
   class Headliner
-    attr_accessor :id, :name, :json, :twitterScreenName
+    attr_accessor :id, :name, :json, :twitterScreenName, :urlAudio
     def self.build(json)
       headliner = Headliner.new
       headliner.id = json['id']
       headliner.name = json['name']
-      headliner.twitterScreenName 
+      headliner.urlAudio = json['urlAudio']
+      headliner.twitterScreenName = json['twitterScreenName']
       headliner.json = json
       headliner
     end
