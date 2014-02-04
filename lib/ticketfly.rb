@@ -53,6 +53,7 @@ module Ticketfly
       event.venue = Venue.build(json['venue'])
       event.org = Org.build(json['org'])
       event.date = json['startDate']
+      event.ticketPurchaseUrl = json['ticketPurchaseUrl']
       event
     end
     
