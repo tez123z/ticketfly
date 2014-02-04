@@ -46,7 +46,7 @@ module Ticketfly
   end
 
   class Event
-    attr_accessor :id, :name, :venue, :org, :date, :json, :ticketPurchaseUrl, :urlEventDetailsUrl, :headlinersName, :supportsName, :image, :startDate, :endDate, :doorsDate, :onSaleDate, :offSaleDate, :ticketPrice, :urlEventDetailsUrl
+    attr_accessor :id, :name, :venue, :org, :date, :json, :ticketPurchaseUrl #, :urlEventDetailsUrl, :headlinersName, :supportsName, :image, :startDate, :endDate, :doorsDate, :onSaleDate, :offSaleDate, :ticketPrice, :urlEventDetailsUrl
     def self.build(json)
       event = Event.new
       event.id = json['id']
