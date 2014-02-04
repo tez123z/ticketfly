@@ -20,7 +20,7 @@ module Ticketfly
       venue.id = json['id']
       venue.name = json['name']
       venue.lat = json['lat']
-      venue.lon = json['lon']
+      venue.lon = json['lng']
       venue.json = json
       venue
     end
