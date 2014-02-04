@@ -60,7 +60,7 @@ module Ticketfly
       event.urlEventDetailsUrl = json['urlEventDetailsUrl']
       event.headlinersName = json['headlinersName'] 
       event.supportsName = json['supportsName']
-      event.image = json['image']['square']
+      event.image = json['image']['square']['path']
       event.startDate = json['startDate']
       event.endDate = json['endDate']
       event.doorsDate = json['doorsDate']
