@@ -19,6 +19,8 @@ module Ticketfly
       venue = Venue.new
       venue.id = json['id']
       venue.name = json['name']
+      venue.lat = json['lat']
+      venue.lon = json['lon']
       venue.json = json
       venue
     end
@@ -117,6 +119,7 @@ module Ticketfly
       events
     end
   end
+  
   
   class Orgs
     def self.get_all
