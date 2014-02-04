@@ -57,7 +57,7 @@ module Ticketfly
       event.org = Org.build(json['org'])
       event.date = json['startDate']
       event.ticketPurchaseUrl = json['ticketPurchaseUrl']
-      event
+#      event
     end
     
     def headliners
