@@ -127,7 +127,7 @@ module Ticketfly
       total_pages = 1
       page = 1
       begin
-        result = JSON.parse(open(base_uri + "?orgId=1&q=" + query.to_s + "&maxResults=" + max_results.to_s).read)
+        result = JSON.parse(open(base_uri + "?orgId=1&q=" + query.to_s).read)
         total_pages = result["totalPages"]
         result['events'].each do |e|
           event = Event.build(e)
