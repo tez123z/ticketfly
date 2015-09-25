@@ -88,6 +88,7 @@ module Ticketfly
   end
 
   class Events
+    
     def self.get_by_id(id)
       base_uri = "http://www.ticketfly.com/api/events/upcoming.json"
       max_results = 1
@@ -141,6 +142,7 @@ module Ticketfly
   
   
   class Orgs
+
     def self.get_all
       base_uri = "http://www.ticketfly.com/api/orgs/list.json"
       max_results = 200
@@ -161,6 +163,25 @@ module Ticketfly
   end
   
   class Venues
+
+    def self.get(id)
+      max_results = 200
+      venues = []
+      total_pages = 1
+      page = 1
+      begin
+        base_uri = "http://www.ticketfly.com/api/venues/list.json"
+        result = JSON.parse(open(base_uri + "?venueId=" + id.to_s).read)
+        total_pages = result["totalPages"]
+        result['venues'].each do |v|
+          venue = Venue.build(v)
+          venues << venue
+        end
+        page += 1
+      end while not page > total_pages
+      venues[0]
+    end
+
     def self.get_all
       max_results = 200
       venues = []
