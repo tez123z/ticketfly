@@ -24,7 +24,7 @@ module Ticketfly
       venue.name = json['name']
       venue.lat = json['lat']
       venue.lon = json['lng']
-      venue.lon = json['postalCode']
+      venue.postalCode = json['postalCode']
       venue.json = json
       venue
     end
