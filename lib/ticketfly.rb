@@ -3,6 +3,7 @@ module Ticketfly
   require 'json'
   
   class Org
+
     attr_accessor :id, :name, :json
     def self.build(json)
       org = Org.new
@@ -14,13 +15,16 @@ module Ticketfly
   end  
   
   class Venue
-    attr_accessor :id, :name, :json, :lat, :lon
+    
+    attr_accessor :id, :name, :json, :lat, :lon, :postalCode
+
     def self.build(json)
       venue = Venue.new
       venue.id = json['id']
       venue.name = json['name']
       venue.lat = json['lat']
       venue.lon = json['lng']
+      venue.lon = json['postalCode']
       venue.json = json
       venue
     end
@@ -53,7 +57,9 @@ module Ticketfly
   end
   
   class Headliner
+
     attr_accessor :id, :name, :json, :twitterScreenName, :embedAudio, :embedVideo, :youtubeVideos
+
     def self.build(json)
       headliner = Headliner.new
       headliner.id = json['id']
@@ -87,6 +93,7 @@ module Ticketfly
   end
 
   class Event
+
     attr_accessor :id, :name, :venue, :org, :eventStatusCode, :date, :json, :ticketPurchaseUrl, :urlEventDetailsUrl, :headlinersName, :supportsName, :image, :startDate, :endDate, :doorsDate, :onSaleDate, :offSaleDate, :ticketPrice, :urlEventDetailsUrl, :showType, :showTypeCode
     
     def self.build(json)
