@@ -66,7 +66,7 @@ module Ticketfly
       event.eventStatusCode = json['eventStatusCode']
 
       event.is_soldout? = (event.eventStatusCode == "SOLD_OUT")
-      event.etickets_available? = (event.eventStatusCode != "TIX_AT_DOOR") && !event.is_soldout?
+      event.etickets_available? = (event.eventStatusCode == "BUY")
 
 
       event.date = json['startDate']
