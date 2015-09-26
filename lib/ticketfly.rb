@@ -14,18 +14,33 @@ module Ticketfly
   end  
   
   class Venue
-    attr_accessor :id, :name, :json, :lat, :lon,:image_url
+    attr_accessor :id, :name, :json, :lat, :lon
     def self.build(json)
       venue = Venue.new
       venue.id = json['id']
       venue.name = json['name']
       venue.lat = json['lat']
       venue.lon = json['lng']
-      venue.image_url = json['image']['xlarge'].nil? ? json['image']['xlarge']['path'] : json['image']['large']['path']
       venue.json = json
       venue
     end
     
+    def image_url
+      
+      url = ""
+      width = 0
+      height = 0
+
+      self.json['image'].each do |key,image|
+        
+        if (image['width'].to_i * image['height'].to_i) > width * height
+          url = image['path']
+        end
+
+      end
+
+    end
+
     def events
       Events.get_by_venue_id(self.id)
     end
@@ -36,7 +51,7 @@ module Ticketfly
   end
   
   class Headliner
-    attr_accessor :id, :name, :json, :twitterScreenName, :embedAudio, :embedVideo, :youtubeVideos, :image_url
+    attr_accessor :id, :name, :json, :twitterScreenName, :embedAudio, :embedVideo, :youtubeVideos
     def self.build(json)
       headliner = Headliner.new
       headliner.id = json['id']
@@ -45,10 +60,26 @@ module Ticketfly
       headliner.embedVideo = json['embedVideo']
       headliner.youtubeVideos = json['youtubeVideos']
       headliner.twitterScreenName = json['twitterScreenName']
-      headliner.image_url = json['image']['xlarge'].nil? ? json['image']['xlarge']['path'] : json['image']['large']['path']
       headliner.json = json
       headliner
     end
+
+    def image_url
+      
+      url = ""
+      width = 0
+      height = 0
+
+      self.json['image'].each do |key,image|
+        
+        if (image['width'].to_i * image['height'].to_i) > width * height
+          url = image['path']
+        end
+
+      end
+
+    end
+
   end
 
   class Event
