@@ -39,6 +39,8 @@ module Ticketfly
 
       end
 
+      url
+
     end
 
     def events
@@ -77,6 +79,8 @@ module Ticketfly
         end
 
       end
+
+      url
 
     end
 
