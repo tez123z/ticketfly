@@ -14,13 +14,14 @@ module Ticketfly
   end  
   
   class Venue
-    attr_accessor :id, :name, :json, :lat, :lon
+    attr_accessor :id, :name, :json, :lat, :lon,:image_url
     def self.build(json)
       venue = Venue.new
       venue.id = json['id']
       venue.name = json['name']
       venue.lat = json['lat']
       venue.lon = json['lng']
+      venue.image_url = json['image']['xlarge'].nil? ? json['image']['xlarge']['path'] : json['image']['large']['path']
       venue.json = json
       venue
     end
@@ -35,7 +36,7 @@ module Ticketfly
   end
   
   class Headliner
-    attr_accessor :id, :name, :json, :twitterScreenName, :embedAudio, :embedVideo, :youtubeVideos
+    attr_accessor :id, :name, :json, :twitterScreenName, :embedAudio, :embedVideo, :youtubeVideos, :image_url
     def self.build(json)
       headliner = Headliner.new
       headliner.id = json['id']
@@ -44,13 +45,14 @@ module Ticketfly
       headliner.embedVideo = json['embedVideo']
       headliner.youtubeVideos = json['youtubeVideos']
       headliner.twitterScreenName = json['twitterScreenName']
+      headliner.image_url = json['image']['xlarge'].nil? ? json['image']['xlarge']['path'] : json['image']['large']['path']
       headliner.json = json
       headliner
     end
   end
 
   class Event
-    attr_accessor :id, :name, :venue, :org, :eventStatusCode, :date, :json, :ticketPurchaseUrl, :urlEventDetailsUrl, :headlinersName, :supportsName, :image, :startDate, :endDate, :doorsDate, :onSaleDate, :offSaleDate, :ticketPrice, :urlEventDetailsUrl, :showType, :showTypeCode
+    attr_accessor :id, :name, :venue, :org, :eventStatusCode, :is_soldout?, :etickets_available?, :is_free?, :date, :json, :ticketPurchaseUrl, :urlEventDetailsUrl, :headlinersName, :supportsName, :image, :startDate, :endDate, :doorsDate, :onSaleDate, :offSaleDate, :ticketPrice, :urlEventDetailsUrl, :showType, :showTypeCode
     
     def self.build(json)
       event = Event.new
@@ -59,7 +61,14 @@ module Ticketfly
       event.json = json
       event.venue = Venue.build(json['venue'])
       event.org = Org.build(json['org'])
+
+      #Status Codes and Booleans
       event.eventStatusCode = json['eventStatusCode']
+
+      event.is_soldout? = (event.eventStatusCode == "SOLD_OUT")
+      event.etickets_available? = (event.eventStatusCode != "TIX_AT_DOOR") && !event.is_soldout?
+
+
       event.date = json['startDate']
       event.ticketPurchaseUrl = json['ticketPurchaseUrl']
       event.urlEventDetailsUrl = json['urlEventDetailsUrl']
@@ -71,7 +80,11 @@ module Ticketfly
       event.doorsDate = json['doorsDate']
       event.onSaleDate = json['onSaleDate']
       event.offSaleDate = json['offSaleDate']
+
+      #Booleans
       event.ticketPrice = json['ticketPrice']
+      event.is_free? = (event.ticketPrice == "Free")
+
       event.urlEventDetailsUrl = json['urlEventDetailsUrl']
       event.showType = json['showType']
       event.showTypeCode = json['showTypeCode']
