@@ -52,7 +52,7 @@ module Ticketfly
   end
 
   class Event
-    attr_accessor :id, :name, :venue, :org, :eventStatusCode, :is_soldout?, :etickets_available?, :is_free?, :date, :json, :ticketPurchaseUrl, :urlEventDetailsUrl, :headlinersName, :supportsName, :image, :startDate, :endDate, :doorsDate, :onSaleDate, :offSaleDate, :ticketPrice, :urlEventDetailsUrl, :showType, :showTypeCode
+    attr_accessor :id, :name, :venue, :org, :eventStatusCode, :date, :json, :ticketPurchaseUrl, :urlEventDetailsUrl, :headlinersName, :supportsName, :image, :startDate, :endDate, :doorsDate, :onSaleDate, :offSaleDate, :ticketPrice, :urlEventDetailsUrl, :showType, :showTypeCode
     
     def self.build(json)
       event = Event.new
@@ -61,14 +61,7 @@ module Ticketfly
       event.json = json
       event.venue = Venue.build(json['venue'])
       event.org = Org.build(json['org'])
-
-      #Status Codes and Booleans
       event.eventStatusCode = json['eventStatusCode']
-
-      event.is_soldout? = (event.eventStatusCode == "SOLD_OUT")
-      event.etickets_available? = (event.eventStatusCode == "BUY")
-
-
       event.date = json['startDate']
       event.ticketPurchaseUrl = json['ticketPurchaseUrl']
       event.urlEventDetailsUrl = json['urlEventDetailsUrl']
@@ -80,11 +73,7 @@ module Ticketfly
       event.doorsDate = json['doorsDate']
       event.onSaleDate = json['onSaleDate']
       event.offSaleDate = json['offSaleDate']
-
-      #Booleans
       event.ticketPrice = json['ticketPrice']
-      event.is_free? = (event.ticketPrice == "Free")
-
       event.urlEventDetailsUrl = json['urlEventDetailsUrl']
       event.showType = json['showType']
       event.showTypeCode = json['showTypeCode']
@@ -92,6 +81,18 @@ module Ticketfly
       event
     end
     
+    def is_soldout?
+      self.eventStatusCode == "SOLD_OUT"
+    end
+
+    def etickets_available?
+      self.eventStatusCode == "BUY"
+    end
+
+    def is_free?
+      self.ticketPrice == "Free"
+    end
+
     def headliners
       headliners = []
       self.json['headliners'].each do |h|
