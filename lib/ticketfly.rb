@@ -29,8 +29,14 @@ module Ticketfly
       venue
     end
     
+    def has_image?
+      !self.json['image'].nil?
+    end
+
     def image_url
       
+      return "" unless self.has_image?
+
       url = ""
       width = 0
       height = 0
@@ -72,7 +78,13 @@ module Ticketfly
       headliner
     end
 
+    def has_image?
+      !self.json['image'].nil?
+    end
+
     def image_url
+      
+      return "" unless self.has_image?
       
       url = ""
       width = 0
