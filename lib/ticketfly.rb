@@ -106,7 +106,7 @@ module Ticketfly
 
   class Event
 
-    attr_accessor :id, :name, :venue, :org, :eventStatusCode, :date, :json, :ticketPurchaseUrl, :urlEventDetailsUrl, :headlinersName, :supportsName, :image, :startDate, :endDate, :doorsDate, :onSaleDate, :offSaleDate, :ticketPrice, :urlEventDetailsUrl, :showType, :showTypeCode
+    attr_accessor :id, :name, :venue, :org, :eventStatusCode, :date, :json, :ticketPurchaseUrl, :urlEventDetailsUrl, :headlinersName, :supportsName, :startDate, :endDate, :doorsDate, :onSaleDate, :offSaleDate, :ticketPrice, :urlEventDetailsUrl, :showType, :showTypeCode
     
     def self.build(json)
       event = Event.new
@@ -121,7 +121,6 @@ module Ticketfly
       event.urlEventDetailsUrl = json['urlEventDetailsUrl']
       event.headlinersName = json['headlinersName'] 
       event.supportsName = json['supportsName']
-      event.image = json['image']['square']['path']
       event.startDate = json['startDate']
       event.endDate = json['endDate']
       event.doorsDate = json['doorsDate']
@@ -131,7 +130,6 @@ module Ticketfly
       event.urlEventDetailsUrl = json['urlEventDetailsUrl']
       event.showType = json['showType']
       event.showTypeCode = json['showTypeCode']
-
       event
     end
     
