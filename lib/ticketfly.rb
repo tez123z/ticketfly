@@ -157,7 +157,7 @@ module Ticketfly
   class Events
     
     def self.get_by_id(id)
-      base_uri = "http://www.ticketfly.com/api/events/upcoming.json"
+      base_uri = "http://www.ticketfly.com/api/events/list.json"
       max_results = 1
       result = JSON.parse(open(base_uri + "?eventId=" + id.to_s).read)
       Event.build(result['events'].first)
