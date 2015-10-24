@@ -109,6 +109,7 @@ module Ticketfly
     attr_accessor :id, :name, :venue, :org, :eventStatusCode, :date, :json, :ticketPurchaseUrl, :urlEventDetailsUrl, :headlinersName, :supportsName, :startDate, :endDate, :doorsDate, :onSaleDate, :offSaleDate, :ticketPrice, :urlEventDetailsUrl, :showType, :showTypeCode
     
     def self.build(json)
+      false if json['id'].nil?
       event = Event.new
       event.id = json['id']
       event.name = json['name']
