@@ -109,7 +109,6 @@ module Ticketfly
     attr_accessor :id, :name, :venue, :org, :eventStatusCode, :date, :json, :ticketPurchaseUrl, :urlEventDetailsUrl, :headlinersName, :supportsName, :startDate, :endDate, :doorsDate, :onSaleDate, :offSaleDate, :ticketPrice, :urlEventDetailsUrl, :showType, :showTypeCode
     
     def self.build(json)
-      false if json['id'].nil?
       event = Event.new
       event.id = json['id']
       event.name = json['name']
@@ -144,6 +143,30 @@ module Ticketfly
 
     def is_free?
       self.ticketPrice == "Free"
+    end
+
+    def has_image?
+      !self.json['image'].nil?
+    end
+
+    def image_url
+      
+      return "" unless self.has_image?
+      
+      url = ""
+      width = 0
+      height = 0
+
+      self.json['image'].each do |key,image|
+        
+        if (image['width'].to_i * image['height'].to_i) > width * height
+          url = image['path']
+        end
+
+      end
+
+      url
+
     end
 
     def headliners
