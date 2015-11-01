@@ -134,7 +134,11 @@ module Ticketfly
     end
     
     def is_soldout?
-      self.eventStatusCode == "SOLD_OUT"
+      self.eventStatusCode == "SOLD_OUT" || self.eventStatusCode == "OFF_SALE"
+    end
+
+    def tickets_at_door?
+      self.eventStatusCode == "TIX_AT_DOOR"
     end
 
     def etickets_available?
