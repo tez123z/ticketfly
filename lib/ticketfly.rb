@@ -145,6 +145,10 @@ module Ticketfly
       self.eventStatusCode == "BUY"
     end
 
+    def is_cancelled?
+      self.eventStatusCode == "CANCELLED"
+    end
+
     def is_free?
       self.ticketPrice == "Free"
     end
