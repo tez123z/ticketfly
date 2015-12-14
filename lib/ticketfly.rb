@@ -192,7 +192,7 @@ module Ticketfly
       base_uri = "http://www.ticketfly.com/api/events/list.json"
       max_results = 1
       result = JSON.parse(open(base_uri + "?eventId=" + id.to_s).read)
-      return nil if result['events'].first['id'].nil?
+      return nil if result['events'].count == 0
       Event.build(result['events'].first)
     end
     
