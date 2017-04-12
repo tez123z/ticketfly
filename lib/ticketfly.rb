@@ -9,7 +9,7 @@ module Ticketfly
       org = Org.new
       org.id = json['id']
       org.name = json['name']
-      org.promoter = json['promoter'] rescue nil
+      org.promoter = json['promoter'] if json['promoter'] rescue {}
       org.json = json
       org
     end
