@@ -9,6 +9,7 @@ module Ticketfly
       org = Org.new
       org.id = json['id']
       org.name = json['name']
+      org.promoter = json['promoter']
       org.json = json
       org
     end
@@ -303,5 +304,24 @@ module Ticketfly
       end while not page > total_pages
       venues
     end
+
+    def self.search(query)
+      base_uri = "http://www.ticketfly.com/api/venues/list.json"
+      max_results = 5
+      venues = []
+      total_pages = 1
+      page = 1
+      begin
+        result = JSON.parse(open(base_uri + "?q=" + query.to_s + "&maxResults=" + max_results.to_s).read)
+        total_pages = result["totalPages"]
+        result['venues'].each do |v|
+          venue = Venue.build(v)
+          venues << venue
+        end
+        page += 1
+      end while not page > total_pages
+      venues
+    end
+
   end
 end
