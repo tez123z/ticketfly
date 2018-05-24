@@ -193,6 +193,24 @@ module Ticketfly
 
   class Events
     
+    def self.get_all
+      max_results = 200
+      events = []
+      total_pages = 1
+      page = 1
+      begin
+        base_uri = "http://www.ticketfly.com/api/events/upcoming.json"
+        result = JSON.parse(open(base_uri + "?maxResults=" + max_results.to_s + "&pageNum=" + page.to_s).read)
+        total_pages = result["totalPages"]
+        result['events'].each do |e|
+          event = Event.build(e)
+          events << event
+        end
+        page += 1
+      end while not page > total_pages
+      events
+    end
+
     def self.get_by_id(id)
       base_uri = "http://www.ticketfly.com/api/events/list.json"
       max_results = 1
