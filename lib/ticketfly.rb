@@ -200,7 +200,7 @@ module Ticketfly
       page = 1
       begin
         base_uri = "http://www.ticketfly.com/api/events/upcoming.json"
-        result = JSON.parse(open(base_uri + "?maxResults=" + max_results.to_s + "&pageNum=" + page.to_s).read)
+        result = JSON.parse(open(base_uri + "?orgId=1&maxResults=" + max_results.to_s + "&pageNum=" + page.to_s).read)
         total_pages = result["totalPages"]
         result['events'].each do |e|
           event = Event.build(e)
