@@ -194,7 +194,7 @@ module Ticketfly
   class Events
     
     def self.get_all
-      max_results = 200
+      max_results = 1000
       events = []
       total_pages = 1
       page = 1
