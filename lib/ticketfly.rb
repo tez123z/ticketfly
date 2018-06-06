@@ -2,6 +2,12 @@ module Ticketfly
   require 'open-uri'
   require 'json'
   
+  class Header
+    def self.random
+      ["Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:43.0) Gecko/20100101 Firefox/43.0", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:43.0) Gecko/20100101 Firefox/43.0", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_2; de-at) AppleWebKit/531.21.8 (KHTML, like Gecko) Version/4.0.4 Safari/531.21.10", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.10586", "Mozilla/5.0 (Windows NT 6.3; WOW64; rv:43.0) Gecko/20100101 Firefox/43.0"].sample
+    end
+  end
+
   class Org
 
     attr_accessor :id, :name, :json
@@ -200,7 +206,7 @@ module Ticketfly
       page = 1
       begin
         base_uri = "https://www.ticketfly.com/api/events/upcoming.json"
-        result = JSON.parse(open(base_uri + "?orgId=1&maxResults=" + max_results.to_s + "&pageNum=" + page.to_s).read)
+        result = JSON.parse(open(base_uri + "?orgId=1&maxResults=" + max_results.to_s + "&pageNum=" + page.to_s,"User-Agent" => Header.random).read)
         total_pages = result["totalPages"]
         result['events'].each do |e|
           event = Event.build(e)
@@ -214,7 +220,7 @@ module Ticketfly
     def self.get_by_id(id)
       base_uri = "https://www.ticketfly.com/api/events/list.json"
       max_results = 1
-      result = JSON.parse(open(base_uri + "?orgId=1&eventId=" + id.to_s).read)
+      result = JSON.parse(open(base_uri + "?orgId=1&eventId=" + id.to_s,"User-Agent" => Header.random).read)
       return nil if result['events'].count == 0
       Event.build(result['events'].first)
     end
@@ -222,7 +228,7 @@ module Ticketfly
     def self.get_next_by_venue_id(venue_id)
       base_uri = "https://www.ticketfly.com/api/events/upcoming.json"
       max_results = 1
-      result = JSON.parse(open(base_uri + "?orgId=1&venueId=" + venue_id.to_s).read)
+      result = JSON.parse(open(base_uri + "?orgId=1&venueId=" + venue_id.to_s,"User-Agent" => Header.random).read)
       Event.build(result['events'].first)
     end
     
@@ -233,7 +239,7 @@ module Ticketfly
       total_pages = 1
       page = 1
       begin
-        result = JSON.parse(open(base_uri + "?orgId=1&venueId=" + venue_id.to_s).read)
+        result = JSON.parse(open(base_uri + "?orgId=1&venueId=" + venue_id.to_s,"User-Agent" => Header.random).read)
         total_pages = result["totalPages"]
         result['events'].each do |e|
           event = Event.build(e)
@@ -251,7 +257,7 @@ module Ticketfly
       total_pages = 1
       page = 1
       begin
-        result = JSON.parse(open(base_uri + "?orgId=1&q=" + query.to_s + "&maxResults=" + max_results.to_s).read)
+        result = JSON.parse(open(base_uri + "?orgId=1&q=" + query.to_s + "&maxResults=" + max_results.to_s,"User-Agent" => Header.random).read)
         total_pages = result["totalPages"]
         result['events'].each do |e|
           event = Event.build(e)
@@ -273,7 +279,7 @@ module Ticketfly
       total_pages = 1
       page = 1
       begin
-        result = JSON.parse(open(base_uri + "?maxResults=" + max_results.to_s + "&pageNum=" + page.to_s).read)
+        result = JSON.parse(open(base_uri + "?maxResults=" + max_results.to_s + "&pageNum=" + page.to_s,"User-Agent" => Header.random).read)
         total_pages = result["totalPages"]
         result['orgs'].each do |o|
           org = Org.build(o)
@@ -294,7 +300,7 @@ module Ticketfly
       page = 1
       begin
         base_uri = "https://www.ticketfly.com/api/venues/list.json"
-        result = JSON.parse(open(base_uri + "?orgId=1&venueId=" + id.to_s).read)
+        result = JSON.parse(open(base_uri + "?orgId=1&venueId=" + id.to_s,"User-Agent" => Header.random).read)
         total_pages = result["totalPages"]
         result['venues'].each do |v|
           venue = Venue.build(v)
@@ -312,7 +318,7 @@ module Ticketfly
       page = 1
       begin
         base_uri = "https://www.ticketfly.com/api/venues/list.json"
-        result = JSON.parse(open(base_uri + "?orgId=1&maxResults=" + max_results.to_s + "&pageNum=" + page.to_s).read)
+        result = JSON.parse(open(base_uri + "?orgId=1&maxResults=" + max_results.to_s + "&pageNum=" + page.to_s,"User-Agent" => Header.random).read)
         total_pages = result["totalPages"]
         result['venues'].each do |v|
           venue = Venue.build(v)
@@ -330,7 +336,7 @@ module Ticketfly
       total_pages = 1
       page = 1
       begin
-        result = JSON.parse(open(base_uri + "?orgId=1&q=" + query.to_s + "&maxResults=" + max_results.to_s).read)
+        result = JSON.parse(open(base_uri + "?orgId=1&q=" + query.to_s + "&maxResults=" + max_results.to_s,"User-Agent" => Header.random).read)
         total_pages = result["totalPages"]
         result['venues'].each do |v|
           venue = Venue.build(v)
