@@ -214,7 +214,7 @@ module Ticketfly
     def self.get_by_id(id)
       base_uri = "https://www.ticketfly.com/api/events/list.json"
       max_results = 1
-      result = JSON.parse(open(base_uri + "?eventId=" + id.to_s).read)
+      result = JSON.parse(open(base_uri + "?orgId=1&eventId=" + id.to_s).read)
       return nil if result['events'].count == 0
       Event.build(result['events'].first)
     end
@@ -222,7 +222,7 @@ module Ticketfly
     def self.get_next_by_venue_id(venue_id)
       base_uri = "https://www.ticketfly.com/api/events/upcoming.json"
       max_results = 1
-      result = JSON.parse(open(base_uri + "?venueId=" + venue_id.to_s).read)
+      result = JSON.parse(open(base_uri + "?orgId=1&venueId=" + venue_id.to_s).read)
       Event.build(result['events'].first)
     end
     
@@ -233,7 +233,7 @@ module Ticketfly
       total_pages = 1
       page = 1
       begin
-        result = JSON.parse(open(base_uri + "?venueId=" + venue_id.to_s).read)
+        result = JSON.parse(open(base_uri + "?orgId=1&venueId=" + venue_id.to_s).read)
         total_pages = result["totalPages"]
         result['events'].each do |e|
           event = Event.build(e)
@@ -294,7 +294,7 @@ module Ticketfly
       page = 1
       begin
         base_uri = "https://www.ticketfly.com/api/venues/list.json"
-        result = JSON.parse(open(base_uri + "?venueId=" + id.to_s).read)
+        result = JSON.parse(open(base_uri + "?orgId=1&venueId=" + id.to_s).read)
         total_pages = result["totalPages"]
         result['venues'].each do |v|
           venue = Venue.build(v)
@@ -312,7 +312,7 @@ module Ticketfly
       page = 1
       begin
         base_uri = "https://www.ticketfly.com/api/venues/list.json"
-        result = JSON.parse(open(base_uri + "?maxResults=" + max_results.to_s + "&pageNum=" + page.to_s).read)
+        result = JSON.parse(open(base_uri + "?orgId=1&maxResults=" + max_results.to_s + "&pageNum=" + page.to_s).read)
         total_pages = result["totalPages"]
         result['venues'].each do |v|
           venue = Venue.build(v)
@@ -330,7 +330,7 @@ module Ticketfly
       total_pages = 1
       page = 1
       begin
-        result = JSON.parse(open(base_uri + "?q=" + query.to_s + "&maxResults=" + max_results.to_s).read)
+        result = JSON.parse(open(base_uri + "?orgId=1&q=" + query.to_s + "&maxResults=" + max_results.to_s).read)
         total_pages = result["totalPages"]
         result['venues'].each do |v|
           venue = Venue.build(v)
