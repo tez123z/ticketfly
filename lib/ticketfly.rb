@@ -63,6 +63,10 @@ module Ticketfly
     def events
       Events.get_by_venue_id(self.id)
     end
+
+    def onsale_events
+      Events.get_by_venue_id(self.id,true)
+    end
     
     def next_event
       Events.get_next_by_venue_id(self.id)
@@ -232,8 +236,8 @@ module Ticketfly
       Event.build(result['events'].first)
     end
     
-    def self.get_by_venue_id(venue_id)
-      base_uri = "https://www.ticketfly.com/api/events/upcoming.json"
+    def self.get_by_venue_id(venue_id,onsale = false)
+      base_uri = onsale ? "https://www.ticketfly.com/api/events/onsale.json" : "https://www.ticketfly.com/api/events/upcoming.json"
       max_results = 200
       events = []
       total_pages = 1
