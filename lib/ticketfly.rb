@@ -249,6 +249,24 @@ module Ticketfly
       end while not page > total_pages
       events
     end
+
+    def self.just_announced
+      max_results = 1000
+      events = []
+      total_pages = 1
+      page = 1
+      begin
+        base_uri = "https://www.ticketfly.com/api/events/justAnnounced.json"
+        result = JSON.parse(open(base_uri + "?orgId=1&maxResults=" + max_results.to_s + "&pageNum=" + page.to_s,"User-Agent" => Header.random).read)
+        total_pages = result["totalPages"]
+        result['events'].each do |e|
+          event = Event.build(e)
+          events << event
+        end
+        page += 1
+      end while not page > total_pages
+      events
+    end
     
     def self.search(query)
       base_uri = "https://www.ticketfly.com/api/events/upcoming.json"
