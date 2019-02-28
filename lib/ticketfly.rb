@@ -272,14 +272,14 @@ module Ticketfly
       events
     end
     
-    def self.search(query)
+    def self.search(params)
       base_uri = "https://www.ticketfly.com/api/events/upcoming.json"
       max_results = 5
       events = []
       total_pages = 1
       page = 1
       begin
-        result = JSON.parse(open(base_uri + "?orgId=1&q=" + query.to_s + "&maxResults=" + max_results.to_s,"User-Agent" => Header.random).read)
+        result = JSON.parse(open(base_uri + "?orgId=1&#{params.to_query}&maxResults=" + max_results.to_s,"User-Agent" => Header.random).read)
         total_pages = result["totalPages"]
         result['events'].each do |e|
           event = Event.build(e)
